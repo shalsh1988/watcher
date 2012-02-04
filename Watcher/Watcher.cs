@@ -24,23 +24,23 @@ namespace Develapp.Watcher
             foreach (string target in Options.Targets)
             {
                 // ensure that all pathes contain '//' in the end of it
-                string updatedFileName=target.TrimEnd('\\');
-                updatedFileName += "\\";
+                string path=target.TrimEnd('\\');
+                path += "\\";
 
                 // get all files in directory target and all subdirectoies
-                string[] files=Directory.GetFiles(updatedFileName, "*.*", SearchOption.AllDirectories);
+                string[] files=Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
 
                 // add files name ( replace the directory name ) to all files list
-                allFiles.Add(files.Select(sub=>sub.Substring(updatedFileName.Length)).ToList<string>());
+                allFiles.Add(files.Select(sub=>sub.Substring(path.Length)).ToList<string>());
             }
 
             // compare allfiles to get all repeated files
             foreach (string file in allFiles[0])
             {
-                bool existed = true;
+                bool exists = true;
                 for (int i = 1; i < allFiles.Count; i++)
-                    existed = existed && allFiles[i].Contains(file);
-                if (existed)
+                    exists = exists && allFiles[i].Contains(file);
+                if (exists)
                     matchedFiles.Add(file);
             }
 
