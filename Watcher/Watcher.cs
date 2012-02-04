@@ -17,28 +17,34 @@ namespace Develapp.Watcher
 
         public List<string> CompareTargets()
         {
-            //use options.Targets and list all matching files
-            List<string> returned = new List<string>();
+            List<string> matchedFiles = new List<string>();
             List<List<string>> allFiles = new List<List<string>>();
 
-            foreach (string s in Options.Targets)
+            // iterate in Options.Targets to get all files in its
+            foreach (string target in Options.Targets)
             {
-                string ss=s.TrimEnd('\\');
-                ss += "\\";
-                string[] sss=Directory.GetFiles(ss, "*.*", SearchOption.AllDirectories);
-                allFiles.Add(sss.Select(sub=>sub.Substring(ss.Length)).ToList<string>());
+                // ensure that all pathes contain '//' in the end of it
+                string updatedFileName=target.TrimEnd('\\');
+                updatedFileName += "\\";
+
+                // get all files in directory target and all subdirectoies
+                string[] files=Directory.GetFiles(updatedFileName, "*.*", SearchOption.AllDirectories);
+
+                // add files name ( replace the directory name ) to all files list
+                allFiles.Add(files.Select(sub=>sub.Substring(updatedFileName.Length)).ToList<string>());
             }
 
-            foreach (string s in allFiles[0])
+            // compare allfiles to get all repeated files
+            foreach (string file in allFiles[0])
             {
                 bool existed = true;
                 for (int i = 1; i < allFiles.Count; i++)
-                    existed = existed && allFiles[i].Contains(s);
+                    existed = existed && allFiles[i].Contains(file);
                 if (existed)
-                    returned.Add(s);
+                    matchedFiles.Add(file);
             }
 
-            return returned;
+            return matchedFiles;
         }
     }
 }
