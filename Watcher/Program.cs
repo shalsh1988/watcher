@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommandLine;
+using System.IO;
 
 namespace Develapp.Watcher
 {
@@ -25,8 +26,18 @@ namespace Develapp.Watcher
                 Console.WriteLine(s);
             }
             
+            SaveToFile(@"c:\Result.txt",watcher.CompareTargets());
 
             Environment.Exit(0);
+        }
+
+        public static void SaveToFile(string filePath,List<string> matchedFiles)
+        {
+            FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(stream);
+            foreach (string file in matchedFiles)
+                writer.WriteLine(file);
+            writer.Close();
         }
     }
 }
