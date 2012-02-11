@@ -16,28 +16,17 @@ namespace Develapp.Watcher
             if (!parser.ParseArguments(args, options))
                 Environment.Exit(1);
 
-            //for testing only
-            options.Targets = new List<string>() { @"C:\Test1\", @"C:\Test2" };
+            //Console.WriteLine("Test : "+options.Test);
+            //Console.WriteLine("Execute : "+options.Execute);
+            //Console.WriteLine("List : "+options.List);
+            //for (int i = 0; i < options.Targets.Count; i++)
+            //    Console.WriteLine("Target" + (i + 1).ToString() + " : " + options.Targets[i]);
 
             Watcher watcher = new Watcher(options);
+            watcher.Run();
 
-            foreach (string s in watcher.CompareTargets())
-            {
-                Console.WriteLine(s);
-            }
-            
-            SaveToFile(@"c:\Result.txt",watcher.CompareTargets());
-
+            Console.ReadLine();
             Environment.Exit(0);
-        }
-
-        public static void SaveToFile(string filePath,List<string> matchedFiles)
-        {
-            FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(stream);
-            foreach (string file in matchedFiles)
-                writer.WriteLine(file);
-            writer.Close();
         }
     }
 }

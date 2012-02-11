@@ -9,15 +9,15 @@ namespace Develapp.Watcher
 {
     public sealed class Options
     {
-        [Option("t", "test", HelpText = "Perform all the actions in a test mode without changing any files")]
-        public bool Test { get; set; }
+        [Option("s", "test", HelpText = "Perform all the actions in a test mode without changing any files")]
+        public bool Test;
         [Option("x", "execute", HelpText = "Execute. Sync changes in watched files")]
-        public bool Execute { get; set; }
+        public bool Execute;
         [Option("l", "list", HelpText = "List matching files")]
-        public bool List { get; set; }
+        public bool List;
 
-        [OptionList("t", "targets", ';', HelpText="Watched locations separated by ;")]
-        public List<string> Targets { get;set;}
+        [OptionList("t", "targets", ';', HelpText = "Watched locations separated by ;")]
+        public List<string> Targets;
 
         public Options()
         {
@@ -39,7 +39,7 @@ namespace Develapp.Watcher
             help.AddPreOptionsLine(string.Format("       SampleApp -rMyData.in -i -j{0} file0.def file1.def", 9.7));
             help.AddPreOptionsLine("       SampleApp -rMath.xml -wReport.bin -o *;/;+;-");
             help.AddOptions(this);
-            
+
 
             return help;
         }
